@@ -22,8 +22,16 @@ namespace CarTest.Controllers
 
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
-        {
+        { 
             ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+        [AllowAnonymous]
+        public ActionResult Test()
+        {
+
+          throw  new Exception("Test");
+            
             return View();
         }
 
@@ -54,7 +62,7 @@ namespace CarTest.Controllers
         {
             WebSecurity.Logout();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("login", "account");
         }
 
         //
@@ -337,7 +345,7 @@ namespace CarTest.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Cars");
             }
         }
 
