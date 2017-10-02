@@ -20,12 +20,12 @@
             </div>
             <div class="form-group">
                 <label for="Brand">Password:</label>
-                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @maxlength = "100" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @maxlength = "100" })
                 @Html.ValidationMessageFor(m => m.Password)
             </div>
             <div class="form-group">
                 <label for="Brand">Confirm Password:</label>
-                @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @maxlength = "100" })
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @maxlength = "100" })
                 @Html.ValidationMessageFor(m => m.ConfirmPassword)
             </div>
             <div class="form-group">
