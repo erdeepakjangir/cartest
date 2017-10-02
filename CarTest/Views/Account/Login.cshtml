@@ -7,13 +7,27 @@
 
 <div class="container">
 
-        <h2>Use a local account to log in.</h2>
-        @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true)
+    <h2>Use a local account to log in.</h2>
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+    <div class="row col-lg-4">
+        <div class="form-group">
+            <label for="Brand">Username:</label>
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @maxlength = "100" })
+            @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+        <div class="form-group">
+            <label for="Brand">Password:</label>
+            @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @maxlength = "100" })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+        <div class="form-group">
 
-            <fieldset>
+            <input type="submit" value="Log in" />
+        </div>
+        @*<fieldset>
                 <legend>Log in Form</legend>
                 <ol>
                     <li>
@@ -32,13 +46,14 @@
                     </li>
                 </ol>
                 <input type="submit" value="Log in" />
-            </fieldset>
-            <p>
-                @Html.ActionLink("Register", "Register") if you don't have an account.
-            </p>
-        }
+            </fieldset>*@
+        <p>
+            @Html.ActionLink("Register", "Register") if you don't have an account.
+        </p>
+    </div>
+    }
 
- 
+
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -4,35 +4,56 @@
 }
 <div class="container">
     <hgroup class="title">
-        <h3>@ViewBag.Title.</h3>
-        <h3>Create a new account.</h3>
+        <h3>@ViewBag.Title. Create a new account.</h3>
     </hgroup>
 
-    @using (Html.BeginForm(new {@class=""}) )
+    @using (Html.BeginForm(new { @class = "" }))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary()
+  
+        <div class="row col-lg-4">
+            <div class="form-group">
+                <label for="Brand">Username:</label>
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @maxlength = "100" })
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+            <div class="form-group">
+                <label for="Brand">Password:</label>
+                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @maxlength = "100" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+            <div class="form-group">
+                <label for="Brand">Confirm Password:</label>
+                @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @maxlength = "100" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Register" />
+            </div>
+        </div>
 
-        <fieldset >
-            <legend>Registration Form</legend>
-            <ol>
-                <li>
-                    @Html.LabelFor(m => m.UserName)
-                    @Html.TextBoxFor(m => m.UserName)
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.Password)
-                    @Html.PasswordFor(m => m.Password)
-                </li>
-                <li>
-                    @Html.LabelFor(m => m.ConfirmPassword)
-                    @Html.PasswordFor(m => m.ConfirmPassword)
-                </li>
-            </ol>
-            <input type="submit" value="Register" />
-        </fieldset>
+
+        @*<fieldset>
+                <legend>Registration Form</legend>
+                <ol>
+                    <li>
+                        @Html.LabelFor(m => m.UserName)
+                        @Html.TextBoxFor(m => m.UserName)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password)
+                    </li>
+                    <li>
+                        @Html.LabelFor(m => m.ConfirmPassword)
+                        @Html.PasswordFor(m => m.ConfirmPassword)
+                    </li>
+                </ol>
+                <input type="submit" value="Register" />
+            </fieldset>*@
+        }
+    </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
     }
-</div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
