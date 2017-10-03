@@ -6,7 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using WebMatrix.WebData;
+ 
 
 namespace CarTest
 {
@@ -37,8 +37,7 @@ namespace CarTest
                 using (var context = new CarTest.DBEntity.CarTestEntities())
                     context.Cars.Find(1);
 
-                if (!WebSecurity.Initialized)
-                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                
             }
         }
     }

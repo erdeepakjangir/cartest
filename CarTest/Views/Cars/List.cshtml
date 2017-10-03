@@ -1,0 +1,157 @@
+﻿@model List<CarTest.Models.CarModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <div class="main-content">
+        <a href="javascript:void(0)" id="btnAddCar" class="pull-right"> Add New</a>
+        <div class="row">
+            <label>Search : </label>
+            <input type="text" id="txtsearch" value="@ViewBag.SearchQuery" maxlength="50" />
+            <input type="button" value="Search" id="btnSearch" />
+        </div>
+      
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>
+                        Brand
+                    </th>
+                    <th>
+                        Model
+                    </th>
+                    <th>
+                        Year
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        New
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int count = 1;
+                var YesNo = "";
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@count</td>
+                        <td> @item.Brand</td>
+                        <td>@item.Model</td>
+                        <td>@item.Year</td>
+                        <td>@item.Price</td>
+                        @{
+                    YesNo = item.New ? "Yes" : "No";
+                        }
+                        <td>@YesNo</td>
+                        <td>
+                            <a href="javascript:void(0);" class="btnEdit" data-id="@item.CarID"> Edit</a>
+                            <a href="javascript:void(0);" class="btnDelete" data-id="@item.CarID">Delete</a>
+                        </td>
+                    </tr>
+                    count++;
+                }
+
+            </tbody>
+        </table>
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" id="modal_title"> Add Car</h4>
+                    </div>
+                    <div class="modal-body" id="dialogBody">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="btnSubmit">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        console.log('test');
+        $('.table').DataTable({
+            bFilter: false,
+            bInfo: false
+
+        });
+
+        $('#btnAddCar').click(function () {
+            $('#modal_title').html('Add Car');
+            $.get('/cars/Upsert/0', function (result) {
+                $('#dialogBody').html(result);
+                $('#myModal').modal('show');
+            });
+        });
+
+        $('#btnSubmit').click(function () {
+            $.post('/cars/upsert', $('#frmCar').serialize(), function (data) {
+                console.log(data.status);
+                if (data.status === "success") {
+                    $("#modalcontent").modal('hide');
+                    $("#message-area").html(data.view);
+                    window.location = "/cars/list";
+                }
+           
+                $('#error_P').html('');
+                $.each(data.formErrors, function () {
+                    if (this.errors != '') {
+                        $('#error_P').html($('#error_P').html() + "</br>" + this.errors.join());
+                    }
+                     
+                });
+
+               
+            });
+        });
+
+        $('.btnEdit').click(function () {
+            var id = $(this).data('id');
+            $('#modal_title').html('Update Car');
+            console.log('clicked');
+            $.get('/cars/Upsert/' + id, function (result) {
+                $('#dialogBody').html(result);
+                $('#myModal').modal('show');
+                
+            });
+        })
+        $('.btnDelete').click(function () {
+            if (confirm('Are you sure to delete this record?')) {
+                 
+                var id = $(this).data('id');
+                $.get('/cars/Delete/' + id, function (result) {
+                    if (result) {
+                        alert('Record has been deleted successfuly');
+                    }
+                    else {
+                        alert('Something wen twrong, Please try again.');
+                    }
+                    window.location = "/cars/list";
+                });
+            }
+        })
+        $('#btnSearch').click(function () {
+            window.location = "/cars/list?q=" + $('#txtsearch').val();
+        });
+    });
+
+</script>
